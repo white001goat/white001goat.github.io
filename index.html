@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" xmlns="http://www.w3.org/1999/html">
   <head>
     <title>WEBer Atelier</title>
 
@@ -53,9 +53,13 @@
         var val = null;
         for (itm in this.components){
           ui = this.components[itm][2];
-          val = entry[this.components[itm][0]];
+          prop = this.components[itm][0];
+          val = this.getProp(entry, prop);
 //TODO give value precedent over innerHTML
           if (ui != null){
+console.log(val + " " + prop);
+            //val = (prop == 'timestamp')?this.getTime(entry):val;
+            val = (prop == 'timestamp')?this.formatDate(entry.timestamp,''):val;
             ui.innerHTML = (val)?val:"";
           }
 
@@ -154,21 +158,24 @@ console.log(error);
         function fillTwo(part){
           return part.substr(part.length-2);
         };
-        var a = new Date(stamp*1000);
+        var a = new Date(stamp);
         //Buried until we can internationalize it
         //var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
         //var month = months[a.getMonth()];
         var year = a.getFullYear();
-        var month = fillTwo(a.getMonth() + 1);
-        var day = a.getDate();
-        var hour = a.getHours();
-        var min = fillTwo(a.getMinutes());
-        var sec = fillTwo(a.getSeconds());
-        //month =
-        //min = min.substr(min.length-2);
-        //sec = sec.substr(sec.length-2);
-        var date = year + '-' + month + '-' + day;
-        var time = hour + ':' + min + ':' + sec ;
+        var month = a.getMonth() + 1;
+        month = '0' + month;
+        month = fillTwo(month);
+        var day = '0' + a.getDate();
+        day = fillTwo(day);
+        var hour = '0' + a.getHours();
+        var min = '0' + a.getMinutes();
+        min = fillTwo(min);
+        var sec = '0' + a.getSeconds();
+        sec = fillTwo(sec);
+
+        var date = '' + year + '-' + month + '-' + day;
+        var time = '' + hour + ':' + min + ':' + sec ;
         switch (form){
           case 'time':
             return time;
@@ -223,10 +230,10 @@ console.log(error);
 <script type="application/javascript">
   xloc = carto;
 </script>
-<br /><br /><br /><br />
-<hr />
+<br /><br />
+<!--hr />
 <button onclick="xloc.getNew()">geo</button>
-    <hr />
+    <hr /-->
   <div class="content">
     <div class="grid">
       <figure class="effect-sarah">
@@ -243,7 +250,7 @@ console.log(error);
         </figcaption>
        </figure>
        <figure class="effect-lily">
-         <img src="img/paris.jpg" alt="Antwerp, March 2013"/>
+         <img src="img/paris.jpg" alt="Mercator Hanging Globe"/>
          <figcaption>
            <div>
              <h2><span>Plethora</span> of Languages</h2>
@@ -257,16 +264,23 @@ console.log(error);
 
       <div class="grid">
           <figure class="effect-sarah">
-              <img src="img/utrecht.jpg" alt="Utrecht Conservatoire"/>
+              <img  id="mapholder" src="img/mercator_globe.jpg" alt="Utrecht Conservatoire"/>
               <figcaption>
-
                   <!--h2>&nbsp;</h2-->
-                  <h2><span>IT</span> ~ Begins in a Synapse</h2>
+                  <h2><span>Light</span> ~ GeoLocation</h2>
+                  <p>
+                  Longitude : <span class="web-long"></span><br/>
+                  Latitude : <span class="web-lat"></span><br/>
+                  Accuracy : <span class="web-accuracy"></span><br/>
+                  <br/>
+                  Altitude : <span class="web-altitude"></span><br/>
+                  Accuracy : <span class="web-alturacy"></span><br/>
+                  Speed : <span class="web-speed"></span><br/>
+                  Heading : <span class="web-heading"></span><br/>
+                  Time : <span class="web-time"></span><br/>
 
-                  <p class="web-long">At the age of 10, my first program was coded in AppleTalk.</p>
-                  <p class="web-lat">The opportunity was due to Apple's aggressive discounts for educational institutions and Grandpa's lugging a behemoth Apple II home from the University for his own studies. Delving into sprites and linear flow, I constructed a labyrinth game.</p>
-                  <p>The fruition is due to creativity and motivation.</p>
-                  <a href="#" onclick="return false;">View more</a>
+                  </p>
+                  <a href="javascript:void;" onclick="xloc.getNew();">View more</a>
               </figcaption>
           </figure>
           <figure class="effect-lily">
@@ -282,9 +296,9 @@ console.log(error);
           </figure>
       </div>
 
-      <div class="grid">
+      <!--div class="grid">
         <figure class="effect-lily">
-          <img id="mapholder" src="img/paris.jpg" alt="Antwerp, March 2013"/>
+          <img src="img/paris.jpg" alt="Antwerp, March 2013"/>
           <figcaption>
             <div>
               <h2><span>Plethora</span> of Languages</h2>
@@ -294,7 +308,7 @@ console.log(error);
            <a href="#" onclick="return false;">View more</a>
           </figcaption>
         </figure>
-      </div>
+      </div -->
   </div>
 
 
