@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Hover Effect Ideas: Inspiration for subtle hover effects" />
+    <meta name="description" content="WEBer Atelier: Another outlet for code and inspiration from the founders of Sextant & Palette, Epik Shades of Grey" />
     <meta name="keywords" content="hover effect, inspiration, grid, thumbnail, transition, subtle, web design" />
     <meta name="author" content="Ked" />
 
@@ -17,11 +17,216 @@
     <!--[if IE]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="application/javascript">
+  var carto = function() {
+
+
+    //var getCore = function(){
+      //return {
+   core = {
+      nav : navigator.geolocation,
+      components : [
+        ['longitude','web-long',null],
+        ['latitude','web-lat',null],
+        ['accuracy','web-accuracy',null],
+        ['altitude','web-altitude',null],
+        ['altitudeAccuracy','web-alturacy',null],
+        ['heading','web-heading',null],
+        ['speed','web-speed',null],
+        ['timestamp','web-time',null]
+      ],
+      /* Looks for items with associated classes */
+      initUI : function(){
+        var ui = null;
+        var nm = '';
+        for (itm in this.components){
+          nm = this.components[itm][0];
+          ui = document.querySelector("." + this.components[itm][1]);
+          this.components[itm][2] = ui;
+        }
+//        console.log(this);
+      },
+      refreshUI : function(){
+        var ui = null;
+        var entry = this.lastEntry();
+        var val = null;
+        for (itm in this.components){
+          ui = this.components[itm][2];
+          val = entry[this.components[itm][0]];
+//TODO give value precedent over innerHTML
+          if (ui != null){
+            ui.innerHTML = (val)?val:"";
+          }
+
+        }
+      },
+      opts : {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 5000
+      },
+      coordStack : [],
+      getMapImg : function(lat, lon){
+        var mapholder = document.getElementById('mapholder');
+        var img_url = "http://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=14&size=400x300&sensor=false";
+        mapholder.src = img_url;
+      },
+      getMap : function(lat, lon){
+        latlon = new google.maps.LatLng(lat, lon);
+        mapholder = document.getElementById('mapholder');
+//        mapholder.style.height = '250px';
+//        mapholder.style.width = '500px';
+
+        var myOptions = {
+          center : latlon,
+          zoom : 14,
+          mapTypeId : google.maps.MapTypeId.ROADMAP,
+          mapTypeControl : false,
+          navigationControlOptions : {
+            style : google.maps.NavigationControlStyle.SMALL
+          }
+        }
+
+        var map = new google.maps.Map(document.getElementById("mapholder"), myOptions);
+        var marker = new google.maps.Marker({position:latlon,map:map,title:"You are here!"});
+      },
+      getNew : function(){
+        var self = this;
+        //this.nav.getCurrentPosition(self.addNew, self.addErr, this.opts);
+        this.nav.getCurrentPosition(function(dat){
+            self.addNew(dat);
+          },
+          function(err){
+            self.addErr(err)
+          },
+            self.opts
+          );
+      },
+      addNew : function(dat){
+        dat.coords.timestamp = dat.timestamp;
+        this.coordStack.push(dat.coords);
+        this.initUI();
+        this.refreshUI();
+//        this.getMap(dat.coords.latitude, dat.coords.longitude);
+        this.getMapImg(dat.coords.latitude, dat.coords.longitude);
+console.log(this);
+      },
+      addErr : function(error){
+        var ret = "An error retrieving Geographical data.";
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            ret = "User denied the request for Geolocation.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            ret = "Location information is unavailable.";
+            break;
+          case error.TIMEOUT:
+            ret = "The request to get user location timed out.";
+            break;
+          case error.UNKNOWN_ERROR:
+            ret = "An unknown error occurred.";
+            break;
+        }
+        return ret;
+console.log(error);
+      },
+      getProp : function(entry, property){
+        switch (typeof(entry)){
+          case 'number':
+            entry = this.coordStack[entry];
+            break;
+          case 'object':
+            break;
+          default:
+            return null;
+        }
+
+        if(!entry.hasOwnProperty(property)) return null;
+        return entry[property];
+      },
+      lastEntry : function(){
+        if(!this.coordStack && this.coordStack.length > 0) return null;
+        var i = this.coordStack.length - 1;
+        return this.coordStack[i];
+      },
+      formatDate: function(stamp, form){
+        function fillTwo(part){
+          return part.substr(part.length-2);
+        };
+        var a = new Date(stamp*1000);
+        //Buried until we can internationalize it
+        //var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        //var month = months[a.getMonth()];
+        var year = a.getFullYear();
+        var month = fillTwo(a.getMonth() + 1);
+        var day = a.getDate();
+        var hour = a.getHours();
+        var min = fillTwo(a.getMinutes());
+        var sec = fillTwo(a.getSeconds());
+        //month =
+        //min = min.substr(min.length-2);
+        //sec = sec.substr(sec.length-2);
+        var date = year + '-' + month + '-' + day;
+        var time = hour + ':' + min + ':' + sec ;
+        switch (form){
+          case 'time':
+            return time;
+            break;
+          case 'date':
+            return date;
+            break;
+          case 'iso':
+            return a.toISOString().match(/(\d{2}:\d{2}:\d{2})/);
+            break;
+          default:
+            break;
+        }
+        return date + ' ' + time;
+      },
+      getLat : function(){
+        var args = (arguments.length > 0)? arguments:this.lastEntry();
+        return this.getProp(args, 'latitude');
+      },
+      getLon : function(){
+        var args = (arguments.length > 0)? arguments:this.lastEntry();
+        return this.getProp(args, 'longitude');
+      },
+      getDateFull: function(){
+        var args = (arguments.length > 0)? arguments:this.lastEntry();
+        var stamp = this.getProp(args, 'timestamp');
+        return this.formatDate(stamp,'full');
+      },
+      getDate: function() {
+        var args = (arguments.length > 0)? arguments:this.lastEntry();
+        var stamp = this.getProp(args, 'timestamp');
+        return this.formatDate(stamp,'date');
+      },
+      getTime: function() {
+        var args = (arguments.length > 0)? arguments:this.lastEntry();
+        var stamp = this.getProp(args, 'timestamp');
+        return this.formatDate(stamp,'time');
+      }
+    };
+
+    return core;
+//    };
+//    return getCore.call(that);
+
+  }();
+</script>
   </head>
   <body>
     <div class="header">&nbsp;</div>
     <header class="sticky">Place holder</header>
 
+<script type="application/javascript">
+  xloc = carto;
+</script>
+<br /><br /><br /><br />
+<hr />
+<button onclick="xloc.getNew()">geo</button>
+    <hr />
   <div class="content">
     <div class="grid">
       <figure class="effect-sarah">
@@ -34,18 +239,18 @@
             <p>At the age of 10, my first program was coded in AppleTalk.</p>
             <p>The opportunity was due to Apple's aggressive discounts for educational institutions and Grandpa's lugging a behemoth Apple II home from the University for his own studies. Delving into sprites and linear flow, I constructed a labyrinth game.</p>
             <p>The fruition is due to creativity and motivation.</p>
-          <a href="#">View more</a>
+          <a href="#" onclick="return false;">View more</a>
         </figcaption>
        </figure>
        <figure class="effect-lily">
          <img src="img/paris.jpg" alt="Antwerp, March 2013"/>
          <figcaption>
            <div>
-             <h2><span>&amp;</span> Plethora  of Languages</h2>
+             <h2><span>Plethora</span> of Languages</h2>
              <p>Spoken languages and programming syntax refine with use. Like riding a bike, you never truly forget. Two weeks in France and it returns.</p>
              <p></p>
            </div>
-           <a href="#">View more</a>
+           <a href="#" onclick="return false;">View more</a>
          </figcaption>     
        </figure>
      </div>
@@ -58,23 +263,37 @@
                   <!--h2>&nbsp;</h2-->
                   <h2><span>IT</span> ~ Begins in a Synapse</h2>
 
-                  <p>At the age of 10, my first program was coded in AppleTalk.</p>
-                  <p>The opportunity was due to Apple's aggressive discounts for educational institutions and Grandpa's lugging a behemoth Apple II home from the University for his own studies. Delving into sprites and linear flow, I constructed a labyrinth game.</p>
+                  <p class="web-long">At the age of 10, my first program was coded in AppleTalk.</p>
+                  <p class="web-lat">The opportunity was due to Apple's aggressive discounts for educational institutions and Grandpa's lugging a behemoth Apple II home from the University for his own studies. Delving into sprites and linear flow, I constructed a labyrinth game.</p>
                   <p>The fruition is due to creativity and motivation.</p>
-                  <a href="#">View more</a>
+                  <a href="#" onclick="return false;">View more</a>
               </figcaption>
           </figure>
           <figure class="effect-lily">
               <img src="img/paris.jpg" alt="Antwerp, March 2013"/>
               <figcaption>
                   <div>
-                      <h2><span>&amp;</span> Plethora  of Languages</h2>
+                      <h2><span>Plethora</span> of Languages</h2>
                       <p>Spoken languages and programming syntax refine with use. Like riding a bike, you never truly forget. Two weeks in France and it returns.</p>
                       <p></p>
                   </div>
-                  <a href="#">View more</a>
+                  <a href="#" onclick="return false;">View more</a>
               </figcaption>
           </figure>
+      </div>
+
+      <div class="grid">
+        <figure class="effect-lily">
+          <img id="mapholder" src="img/paris.jpg" alt="Antwerp, March 2013"/>
+          <figcaption>
+            <div>
+              <h2><span>Plethora</span> of Languages</h2>
+              <p>Spoken languages and programming syntax refine with use. Like riding a bike, you never truly forget. Two weeks in France and it returns.</p>
+
+            </div>
+           <a href="#" onclick="return false;">View more</a>
+          </figcaption>
+        </figure>
       </div>
   </div>
 
