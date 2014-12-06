@@ -1,16 +1,23 @@
 var webCarto = function() {
-    core = {
-        nav : navigator.geolocation,
-        components : [
-            ['longitude','webGeo-long',null],
-            ['latitude','webGeo-lat',null],
-            ['accuracy','webGeo-accuracy',null],
-            ['altitude','webGeo-altitude',null],
-            ['altitudeAccuracy','webGeo-altAccuracy',null],
-            ['heading','webGeo-heading',null],
-            ['speed','webGeo-speed',null],
-            ['timestamp','webGeo-time',null]
-        ],
+  core = {
+    nav : navigator.geolocation,
+    /*
+    @property components array
+     Ordinal array [field name, CSS class name for target, DOM Element for information target].
+     The DOM Element begins at null and remains as such until it is set or found
+     by the script.
+     */
+    components : [
+      ['longitude','webGeo-long',null],
+      ['latitude','webGeo-lat',null],
+      ['accuracy','webGeo-accuracy',null],
+      ['altitude','webGeo-altitude',null],
+      ['altitudeAccuracy','webGeo-altAccuracy',null],
+      ['heading','webGeo-heading',null],
+      ['speed','webGeo-speed',null],
+      ['timestamp','webGeo-time',null],
+      ['error','webGeo-error',null]
+    ],
         /* Looks for items with associated classes */
         initUI : function(){
             var ui = null;
@@ -108,28 +115,41 @@ var webCarto = function() {
             dat.coords.timestamp = dat.timestamp;
             this.coordStack.push(dat.coords);
             this.initUI();
-            this.refreshUI();
+
+this.addErr('This is a total bogus error message just for the sake of testing. You should have your data soon.');
 //        this.getMap(dat.coords.latitude, dat.coords.longitude);
             this.getMapImg(dat.coords.latitude, dat.coords.longitude);
-            console.log(this);
+            this.refreshUI();
         },
-        addErr : function(error){
-            var ret = "An error retrieving Geographical data.";
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    ret = "User denied the request for Geolocation.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    ret = "Location information is unavailable.";
-                    break;
-                case error.TIMEOUT:
-                    ret = "The request to get user location timed out.";
-                    break;
-                case error.UNKNOWN_ERROR:
-                    ret = "An unknown error occurred.";
-                    break;
+        addErr : function(err){
+          var rpt = {
+            err : null,
+            timestamp : Math.round(new Date().getTime())
+          };
+          if (typeof(err) === 'string'){
+            rpt.error = err;
+            this.coordStack.push(rpt);
+            return err;
+          }
+          var ret = "An error retrieving Geographical data.";
+          switch(err.code) {
+            case err.PERMISSION_DENIED:
+              ret = "User denied the request for Geolocation.";
+              break;
+            case err.POSITION_UNAVAILABLE:
+              ret = "Location information is unavailable.";
+              break;
+            case err.TIMEOUT:
+              ret = "The request to get user location timed out.";
+              break;
+            case err.UNKNOWN_ERROR:
+              ret = "An unknown error occurred.";
+              break;
             }
-            return ret;
+          rpt.error = ret;
+          this.coordStack.push(rpt);
+          this.refreshUI();
+          return ret;
         },
         getProp : function(entry, property){
             switch (typeof(entry)){
