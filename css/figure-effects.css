@@ -75,6 +75,7 @@ header.sticky {
   backface-visibility: hidden;
 }
 
+
 .grid figure figcaption::before,
 .grid figure figcaption::after {
   pointer-events: none;
@@ -117,23 +118,6 @@ header.sticky {
   letter-spacing: 1px;
   font-size: 68.5%;
 }
-
-/* image zoom out */
-.fx-zoomout img {
-    opacity: 0.7;
-    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
-    transition: opacity 0.35s, transform 0.35s;
-    -webkit-transform: scale(1.15);
-    transform: scale(1.15);
-}
-
-.fx-zoomout:hover img {
-    opacity: 0.5;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-}
-
-
 
 /*---------------*/
 /***** Lily *****/
@@ -392,3 +376,45 @@ figure.effect-zoe:hover p.icon-links a:first-child {
   -webkit-transition-delay: 0.2s;
   transition-delay: 0.2s;
 }
+
+
+/* image zoom out */
+.webFX-zoomout img {
+    opacity: 0.7;
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: scale(1.15);
+    transform: scale(1.15);
+}
+
+.webFX-zoomout:hover img {
+    opacity: 0.5;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+/* TEXT */
+figure.webFX-textBlack figcaption {
+    padding: 2em;
+    color: #282828;
+    font-family: 'Oxygen', 'PT Sans Narrow', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.25em;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+figure.webFX-textBlack h2::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #282828;
+    content: '';
+    -webkit-transition: -webkit-transform 0.35s;
+    transition: transform 0.35s;
+    -webkit-transform: translate3d(-100%,0,0);
+    transform: translate3d(-100%,0,0);
+}
+
