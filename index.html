@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
   <head>
     <title>WEBer Atelier</title>
 
@@ -11,13 +11,16 @@
     <meta name="author" content="Ked" />
 
     <link rel="shortcut icon" href="favicon.ico" >
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <link rel="stylesheet" type="text/css" href="css/figure-effects.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/huisstijl.css" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <script src="/js/web-cartography-0.0.1.js"></script>
-    <!--[if IE]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="application/javascript">
 
@@ -25,37 +28,61 @@
   </head>
   <body>
     <div class="header">&nbsp;</div>
-    <header class="sticky">Place holder</header>
+    <header class="sticky">
 
-<script type="application/javascript">
-  //webCarto = carto;
-</script>
-<br /><br />
-<!--hr />
-<button onclick="webCarto.getNew()">geo</button>
-    <hr /-->
+      <span class="menu-left">
+       <a href="http://goo.gl/c7ClX8">
+        <svg  width="32" height="32" viewBox="0 0 32 32" fill="#FFFFFF">
+          <use xlink:href="svg/webIcon-aGeneral.svg#webIcon-stack"></use>
+        </svg>
+       </a>
+      </span>
+
+      <span>WEBer Atelier</span>
+      <!--
+      <svg  width="32" height="32" viewBox="0 0 32 32">
+        <use xlink:href="svg/webIcon-aGeneral.svg#webIcon-compass"></use>
+      </svg>
+      <svg  width="32" height="32" viewBox="0 0 32 32">
+        <use xlink:href="svg/webIcon-aGeneral.svg#webIcon-cogs"></use>
+      </svg>
+        -->
+    </header>
+
+  <script type="application/javascript"></script>
+  <br /><br />
   <div class="content">
     <div class="grid">
       <figure class="effect-sarah">
         <img src="img/utrecht.jpg" alt="Utrecht Conservatoire"/>
         <figcaption>
-
-            <!--h2>&nbsp;</h2-->
             <h2><span>IT</span> ~ Begins in a Synapse</h2>
 
             <p>At the age of 10, my first program was coded in AppleTalk.<br />
             The opportunity was due to Apple's aggressive discounts for educational institutions and Grandpa's lugging a behemoth Apple II home from the University for his own studies. Delving into sprites and linear flow, I constructed a labyrinth game.<br />
             The fruition is due to creativity and motivation.</p>
-          <a href="#void" onclick="return false;">View more</a>
+          <a href="javascript: void(0);" onclick="return false;">View more</a>
         </figcaption>
       </figure>
 
       <figure class="webFX-textBlack effect-sarah">
         <img class="webGeo-map" src="img/mercator_globe.jpg" alt="Gerardus Mercator was a cartographer, philosopher and mathematician. He is best known for his work in cartography, in particular the world map of 1569 based on a new projection which represented sailing courses of constant bearing as straight lines."/>
         <figcaption>
-          <h2><span>Light</span> ~ GeoLocation</h2>
+          <!--object data="svg/webIcon-earth.svg" type="image/svg+xml" class="webIcon" width="32" height="32"></object-->
+          <h2><span>Light</span> GeoLocation
+            <svg  width="32" height="32" viewBox="0 0 32 32">
+              <use xlink:href="svg/webIcon-aGeneral.svg#webIcon-target">
+                <animateTransform attributeType="xml"
+                   attributeName="transform"
+                   type="rotate"
+                   from="0 16 16"
+                   to="360 16 16"
+                   dur="4s"
+                   repeatCount="indefinite"/>
+              </use>
+            </svg>
+          </h2>
           <p class="webGeo-autoCanvas">
-          <span>For a simple static rendering of your current location, simply click this image.</span>
 <!--
                   <span class="webGeo-error">
                   For a simple static rendering of your current location, simply click this image.</span>
@@ -70,52 +97,41 @@
                   Time : <span class="webGeo-time"></span><br/>
 -->
           </p>
-          <a href="#void" onclick="webCarto.getNew();">View more</a>
+          <a href="javascript: void(0);" onclick="webCarto.getNew();">View more</a>
         </figcaption>
       </figure>
 
      </div>
-
-      <div class="grid">
-          <figure class="effect-lily">
-              <img src="img/rue_pierre_chausson.jpg" alt="Je chantes sur mon chemin."/>
-              <figcaption>
-                  <div>
-                      <h2><span>Plethora</span> of Languages</h2>
-                      <p>Spoken languages and programming syntax refine with use. Like riding a bike, you never truly forget. Two weeks in France and it returns.</p>
-                      <p></p>
-                  </div>
-                  <a href="#void" onclick="return false;">View more</a>
-              </figcaption>
-          </figure>
-          <figure class="effect-lily">
-              <img src="img/paris.jpg" alt="Antwerp, March 2013"/>
-              <figcaption>
-                  <div>
-                      <h2><span>Plethora</span> of Languages</h2>
-                      <p>Spoken languages and programming syntax refine with use. Like riding a bike, you never truly forget. Two weeks in France and it returns.</p>
-                      <p></p>
-                  </div>
-                  <a href="#void" onclick="return false;">View more</a>
-              </figcaption>
-          </figure>
-      </div>
-
-      <!--div class="grid">
-        <figure class="effect-lily">
-          <img src="img/paris.jpg" alt="Antwerp, March 2013"/>
-          <figcaption>
-            <div>
-              <h2><span>Plethora</span> of Languages</h2>
-              <p>Spoken languages and programming syntax refine with use. Like riding a bike, you never truly forget. Two weeks in France and it returns.</p>
-
-            </div>
-           <a href="#void" onclick="return false;">View more</a>
-          </figcaption>
-        </figure>
-      </div -->
+    <div class="grid">
+      <figure class="effect-lily">
+        <img src="img/rue_pierre_chausson.jpg" alt="Je chantes sur mon chemin."/>
+        <figcaption>
+          <div>
+            <h2><span>Plethora</span> of Languages</h2>
+            <p>Spoken languages and programming syntax refine with use. Like riding a bike, you never truly forget. Two weeks in France and it returns.</p>
+            <p></p>
+          </div>
+          <a href="javascript: void(0);" onclick="return false;">View more</a>
+        </figcaption>
+      </figure>
+      <figure class="effect-lily">
+        <img src="img/paris.jpg" alt="Antwerp, March 2013"/>
+        <figcaption>
+          <div>
+            <h2><span>Plethora</span> of Languages</h2>
+            <p>Spoken languages and programming syntax refine with use. Like riding a bike, you never truly forget. Two weeks in France and it returns.</p>
+            <p></p>
+          </div>
+          <a href="javascript: void(0);" onclick="return false;">View more</a>
+        </figcaption>
+      </figure>
+    </div>
   </div>
 
-
   </body>
+<!-- notes:
+nice svg animation library http://alexk111.github.io/SVG-Morpheus/
+scrolls for RWD https://www.airbnb.com/berlin-economic-impact
+geolocation accuracy and service providers http://www.andygup.net/html5-geolocation-api-%E2%80%93-how-accurate-is-it-really/
+-->
 </html>
