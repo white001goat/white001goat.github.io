@@ -36,6 +36,7 @@ header.sticky {
     display: block;
     font-family: 'Oxygen', 'PT Sans Narrow', sans-serif;
 /*    background-color: rgba(6, 53, 17, 0.93); */
+    background-color: rgb(60, 97, 69);
     background-color: rgba(60, 97, 69, 0.93);
     z-index: 2000;
     width: 100%;
